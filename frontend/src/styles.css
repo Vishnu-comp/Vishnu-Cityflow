@@ -1,26 +1,10 @@
-/* Cityflo Morning Triage — Tailwind v4.
-   All design decisions live here as tokens (@theme); components use utilities.
+/* Cityflo Morning Triage — Tailwind v3 (Node 18 compatible).
+   Design tokens live in ../tailwind.config.js; components use utilities.
    Palette mirrors cityflo.com: serif display, cream surfaces, black pill CTA,
    brand-yellow accents. */
-@import 'tailwindcss';
-
-@theme {
-  --font-sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-
-  --color-ink: #17160f;
-  --color-ink-soft: #4f4c41;
-  --color-muted: #8b8778;
-  --color-paper: #fbfaf5;
-  --color-cream: #f4f1e4;
-  --color-cream-deep: #eeeada;
-  --color-line: #eae6d8;
-  --color-brand: #f6c500;
-  --color-brand-soft: #fff3bf;
-  --color-brand-line: #efdf96;
-  --color-danger: #b3261e;
-  --color-danger-bg: #fbeceb;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   body {

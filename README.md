@@ -50,7 +50,7 @@ Vishnu-Cityflow/
 │       │   ├── ClusterBar.jsx     # cluster pills → filter the inbox
 │       │   └── FeedbackList.jsx   # the 30 messages, severity/injection chips
 │       ├── format.js           # time helpers + shared Tailwind recipes (chips, buttons)
-│       └── styles.css          # Tailwind v4 @theme tokens — cityflo.com palette: cream surfaces, brand yellow, Fraunces display
+│       └── styles.css          # Tailwind v3 directives; design tokens live in ../tailwind.config.js
 └── README.md
 ```
 
@@ -65,7 +65,7 @@ python manage.py migrate
 python manage.py seed_feedback
 python manage.py runserver 0.0.0.0:8000
 
-# 2) UI  (http://127.0.0.1:5173)
+# 2) UI  (http://127.0.0.1:5173) — needs Node 18+
 cd frontend
 npm install
 npm run dev

@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 
+// Styling: Tailwind v3 via postcss.config.js (picked up automatically by Vite).
 // The browser only ever talks to this dev server (relative URLs);
 // /api is proxied to Django in-process, so no CORS and no localhost leaks.
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   server: {
     host: true,
     port: 5173,
