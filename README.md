@@ -49,7 +49,8 @@ Vishnu-Cityflow/
 │       │   ├── DraftReply.jsx     # editable AI draft + copy (human-in-the-loop)
 │       │   ├── ClusterBar.jsx     # cluster pills → filter the inbox
 │       │   └── FeedbackList.jsx   # the 30 messages, severity/injection chips
-│       └── styles.css          # matches cityflo.com: serif display, cream surfaces, black pill CTA, yellow accents
+│       ├── format.js           # time helpers + shared Tailwind recipes (chips, buttons)
+│       └── styles.css          # Tailwind v4 @theme tokens — cityflo.com palette: cream surfaces, brand yellow, Fraunces display
 └── README.md
 ```
 

@@ -1,249 +1,29 @@
-/* ------------------------------------------------------------------
-   Cityflo Morning Triage — styled after cityflo.com
-   Editorial light theme: serif display, cream surfaces, black pill CTA,
-   brand-yellow accents (underline, dots, badges).
-------------------------------------------------------------------- */
+/* Cityflo Morning Triage — Tailwind v4.
+   All design decisions live here as tokens (@theme); components use utilities.
+   Palette mirrors cityflo.com: serif display, cream surfaces, black pill CTA,
+   brand-yellow accents. */
+@import 'tailwindcss';
 
-:root {
-  --ink: #17160f;
-  --ink-soft: #4f4c41;
-  --muted: #8b8778;
-  --paper: #fbfaf5;
-  --card: #ffffff;
-  --cream: #f4f1e4;        /* their filter-pill beige */
-  --cream-deep: #eeeada;    /* card bottom band */
-  --line: #eae6d8;
-  --yellow: #f6c500;        /* brand yellow */
-  --yellow-soft: #fff3bf;
-  --yellow-line: #efdf96;
-  --danger: #b3261e;
-  --danger-bg: #fbeceb;
-  --radius: 16px;
-  --serif: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-  --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
-}
+@theme {
+  --font-sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
-
-body {
-  font-family: var(--sans);
-  background: var(--paper);
-  color: var(--ink);
-  -webkit-font-smoothing: antialiased;
+  --color-ink: #17160f;
+  --color-ink-soft: #4f4c41;
+  --color-muted: #8b8778;
+  --color-paper: #fbfaf5;
+  --color-cream: #f4f1e4;
+  --color-cream-deep: #eeeada;
+  --color-line: #eae6d8;
+  --color-brand: #f6c500;
+  --color-brand-soft: #fff3bf;
+  --color-brand-line: #efdf96;
+  --color-danger: #b3261e;
+  --color-danger-bg: #fbeceb;
 }
 
-.page { min-height: 100vh; }
-
-/* ---------- header: white bar, hairline yellow rule (like cityflo.com) ---------- */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 28px;
-  background: var(--card);
-  border-bottom: 3px solid var(--yellow);
-  flex-wrap: wrap;
-}
-.brand { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
-.wordmark {
-  font-weight: 800; font-size: 21px; letter-spacing: -0.04em; color: var(--ink);
-}
-.wordmark-dot { color: var(--yellow); }
-.product { font-size: 12.5px; font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
-.topbar-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-
-/* ---------- provider badge: like their yellow NEW tag / outlined states ---------- */
-.provider { font-size: 11.5px; font-weight: 700; padding: 5px 11px; border-radius: 6px; }
-.provider.ok { background: var(--yellow); color: var(--ink); }
-.provider.warn { background: var(--card); color: var(--ink-soft); border: 1px solid var(--line); }
-
-/* ---------- buttons: the black "Book Now" pill ---------- */
-.btn {
-  font: inherit; font-size: 13.5px; font-weight: 600;
-  border: none; border-radius: 999px; cursor: pointer;
-  padding: 10px 22px; transition: transform 0.06s ease, background 0.15s ease, opacity 0.15s ease;
-}
-.btn:active { transform: scale(0.97); }
-.btn:disabled { opacity: 0.5; cursor: default; }
-.btn.primary { background: var(--ink); color: #fff; }
-.btn.primary:hover:not(:disabled) { background: #2c2a20; }
-.btn.ghost {
-  background: var(--card); border: 1px solid var(--line); color: var(--ink-soft);
-  padding: 6px 14px; font-size: 12.5px;
-}
-.btn.ghost:hover { border-color: var(--ink-soft); }
-
-/* ---------- hero: big serif display + gray lede (like "Available routes") ---------- */
-.hero { max-width: 1180px; margin: 0 auto; padding: 34px 28px 6px; }
-.display {
-  font-family: var(--serif); font-weight: 900; font-size: clamp(30px, 4.5vw, 44px);
-  letter-spacing: -0.01em; line-height: 1.05; margin: 0;
-}
-.lede { margin: 8px 0 0; font-size: 15px; color: var(--muted); max-width: 640px; line-height: 1.55; }
-
-/* ---------- banner ---------- */
-.banner {
-  margin: 14px auto 0; max-width: 1180px; padding: 10px 16px;
-  background: var(--yellow-soft); color: #7a6400;
-  border: 1px solid var(--yellow-line); border-radius: var(--radius);
-  font-size: 13px; font-weight: 500;
-}
-.banner.error { background: var(--danger-bg); color: var(--danger); border-color: #efd2d0; }
-
-/* ---------- layout ---------- */
-.layout {
-  max-width: 1180px; margin: 0 auto; padding: 22px 28px 60px;
-  display: grid; grid-template-columns: 5fr 7fr; gap: 26px; align-items: start;
-}
-.section-title {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 12px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.08em; color: var(--ink-soft); margin: 6px 0 12px;
-}
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); }
-
-/* ---------- attention cards: white on cream, their rounded corners + bottom band ---------- */
-.attention-card {
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 18px 18px 0; margin-bottom: 16px; cursor: pointer;
-  overflow: hidden;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.attention-card:hover { border-color: #d8d2be; box-shadow: 0 2px 10px rgba(23, 22, 15, 0.05); }
-.attention-card.active { outline: 2px solid var(--yellow); outline-offset: 1px; }
-.attention-top { display: flex; gap: 12px; align-items: flex-start; }
-.rank {
-  width: 26px; height: 26px; flex: none;
-  display: grid; place-items: center;
-  background: var(--ink); color: var(--yellow);
-  border-radius: 8px; font-weight: 800; font-size: 14px;
-}
-.attention-heading h3 { margin: 0 0 7px; font-size: 15.5px; line-height: 1.35; letter-spacing: -0.01em; }
-.why { font-size: 13.5px; line-height: 1.6; color: var(--ink-soft); margin: 10px 0 12px; }
-
-.action-row {
-  display: flex; gap: 8px; align-items: baseline;
-  font-size: 13px; color: var(--ink);
-  padding: 10px 12px; background: var(--paper);
-  border: 1px dashed var(--line); border-radius: 10px; margin-bottom: 12px;
-}
-.action-tag {
-  flex: none; font-size: 10.5px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.05em; color: var(--ink); background: var(--yellow);
-  padding: 2px 8px; border-radius: 5px;
-}
-
-/* the cityflo card "bottom band" — schedule strip equivalent */
-.card-band {
-  margin: 14px -18px 0; padding: 9px 18px;
-  background: var(--cream-deep);
-  font-size: 12px; font-weight: 600; color: var(--ink-soft);
-  text-align: center; letter-spacing: 0.01em;
-}
-
-/* ---------- chips: their cream filter pills ---------- */
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip {
-  font-size: 11.5px; font-weight: 600; padding: 4px 11px;
-  border-radius: 999px; background: var(--cream); color: var(--ink-soft);
-}
-.chip.subtle { background: var(--card); border: 1px solid var(--line); color: var(--muted); }
-.chip.danger { background: var(--ink); color: var(--yellow); }
-.chip.sev-5 { background: var(--ink); color: #fff; }
-.chip.sev-4 { background: var(--yellow); color: var(--ink); }
-.chip.sev-3 { background: var(--cream); color: var(--ink); border: 1px solid var(--line); }
-.chip.sev-2, .chip.sev-1 { background: var(--cream); color: var(--muted); }
-
-/* ---------- draft reply ---------- */
-.draft {
-  margin-top: 6px; border: 1px solid var(--line);
-  border-radius: 12px; overflow: hidden; background: #fefefa;
-}
-.draft-label {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
-  padding: 8px 12px; background: var(--cream); font-size: 12px; font-weight: 600;
-  color: var(--ink-soft); border-bottom: 1px solid var(--line); flex-wrap: wrap;
-}
-.draft-hint { font-weight: 500; color: var(--muted); font-size: 11px; }
-.draft textarea {
-  width: 100%; border: none; resize: vertical; font: inherit;
-  font-size: 13px; line-height: 1.6; padding: 12px; background: transparent;
-  color: var(--ink); outline: none; min-height: 120px;
-}
-.draft-footer {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 7px 12px; border-top: 1px solid var(--line); font-size: 12px;
-}
-.muted { color: var(--muted); }
-
-/* ---------- memo strip ---------- */
-.memo-strip {
-  border: 1px solid var(--yellow-line); background: #fffdf0;
-  border-radius: var(--radius); padding: 14px 16px; margin-top: 4px;
-}
-.memo-strip h4 {
-  margin: 0 0 6px; font-size: 13px; font-family: var(--serif); font-weight: 700;
-}
-.memo-strip p { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
-
-/* ---------- cluster pills: the "Vashi / Thane / Mulund" row ---------- */
-.cluster-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-.cluster-pill {
-  font: inherit; font-size: 12.5px; font-weight: 600;
-  background: var(--cream); color: var(--ink);
-  border: 1px solid transparent; border-radius: 999px;
-  padding: 7px 14px; cursor: pointer;
-  transition: border-color 0.12s ease, background 0.12s ease;
-}
-.cluster-pill b { color: var(--muted); font-weight: 700; margin-left: 2px; }
-.cluster-pill:hover { border-color: #cfc9b4; }
-.cluster-pill.on {
-  background: var(--card); border-color: var(--ink);
-}
-.cluster-pill.on b { color: var(--ink); }
-
-/* ---------- feed ---------- */
-.feed { list-style: none; margin: 0; padding: 0; }
-.feed-row {
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px;
-  transition: opacity 0.15s ease, border-color 0.15s ease;
-}
-.feed-row:hover { border-color: #d8d2be; }
-.feed-row.dimmed { opacity: 0.35; }
-.feed-meta { display: flex; gap: 10px; align-items: baseline; font-size: 12px; margin-bottom: 6px; flex-wrap: wrap; }
-.feed-id { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-weight: 700; font-size: 11px; color: var(--ink-soft); }
-.feed-src {
-  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-  color: var(--ink-soft); background: var(--cream); padding: 2px 7px; border-radius: 5px;
-}
-.rider-name { font-weight: 600; color: var(--ink); }
-.feed-body { margin: 0 0 8px; font-size: 13.5px; line-height: 1.6; }
-.feed-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-
-/* ---------- states ---------- */
-.empty {
-  border: 2px dashed var(--line); border-radius: var(--radius);
-  padding: 34px 22px; text-align: center; color: var(--muted); font-size: 14px;
-  background: var(--card);
-}
-.skeleton-card {
-  height: 130px; border-radius: var(--radius); margin-bottom: 16px;
-  background: var(--cream); animation: pulse 1.3s ease-in-out infinite;
-}
-.skeleton-card.tall { height: 320px; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
-
-/* ---------- responsive ---------- */
-@media (max-width: 920px) {
-  .layout { grid-template-columns: 1fr; padding: 14px 16px 50px; }
-  .topbar { padding: 12px 16px; }
-  .hero { padding: 22px 16px 4px; }
-  .hide-sm { display: none; }
+@layer base {
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
 }
