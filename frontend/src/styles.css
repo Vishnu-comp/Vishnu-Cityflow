@@ -1,0 +1,13 @@
+/* Cityflo Morning Triage — Tailwind v3 (Node 18 compatible).
+   Design tokens live in ../tailwind.config.js; components use utilities.
+   Palette mirrors cityflo.com: serif display, cream surfaces, black pill CTA,
+   brand-yellow accents. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+}
