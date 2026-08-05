@@ -4,6 +4,7 @@ import { BTN_GHOST, BTN_PRIMARY } from './format.js'
 import AttentionCard from './components/AttentionCard.jsx'
 import ClusterBar from './components/ClusterBar.jsx'
 import FeedbackList from './components/FeedbackList.jsx'
+import ImportDialog from './components/ImportDialog.jsx'
 import Tour from './components/Tour.jsx'
 
 const SKELETON = 'mb-4 h-[130px] animate-pulse rounded-2xl bg-cream'
@@ -16,6 +17,8 @@ export default function App() {
   const [error, setError] = useState(null)
   const [filter, setFilter] = useState('all')
   const [focusCluster, setFocusCluster] = useState(null)
+  const [importOpen, setImportOpen] = useState(false)
+  const [notice, setNotice] = useState(null)
   const tourRef = useRef(null)
 
   useEffect(() => {
@@ -28,6 +31,13 @@ export default function App() {
       .finally(() => setLoading(false))
   }, [])
 
+  // transient confirmation banner after imports
+  useEffect(() => {
+    if (!notice) return
+    const t = setTimeout(() => setNotice(null), 12000)
+    return () => clearTimeout(t)
+  }, [notice])
+
   const runTriage = useCallback(async () => {
     setTriaging(true)
     setError(null)
@@ -39,6 +49,29 @@ export default function App() {
       setTriaging(false)
     }
   }, [])
+
+  // After an import/sample-restore: close the dialog, reload the inbox,
+  // clear stale filters, and triage the fresh batch.
+  const handleBatchDone = useCallback(
+    async (stats) => {
+      setImportOpen(false)
+      setFilter('all')
+      setFocusCluster(null)
+      const label = stats.fromSample
+        ? `Sample batch restored (${stats.imported} messages)`
+        : `Imported ${stats.imported} messages` +
+          (stats.dropped ? ` · ${stats.dropped} rows skipped` : '')
+      setNotice(`${label} — re-running triage…`)
+      try {
+        const feed = await api.feedback()
+        setMessages(feed?.messages ?? [])
+      } catch {
+        /* triage below reads the DB directly anyway */
+      }
+      runTriage()
+    },
+    [runTriage],
+  )
 
   const result = run?.result
   const clusters = result?.clusters ?? []
@@ -88,6 +121,14 @@ export default function App() {
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <button
+            data-tour="import"
+            className={BTN_GHOST}
+            onClick={() => setImportOpen(true)}
+            aria-label="Import a feedback spreadsheet"
+          >
+            Import CSV
+          </button>
           <button className={BTN_GHOST} onClick={() => tourRef.current?.open()} aria-label="Start the guided tour">
             ? Tour
           </button>
@@ -108,6 +149,11 @@ export default function App() {
         </p>
       </div>
 
+      {notice && (
+        <div className="mx-auto mt-3.5 max-w-[1180px] rounded-2xl border border-brand-line bg-brand-soft px-4 py-2.5 text-[13px] font-medium text-[#7a6400]">
+          {notice}
+        </div>
+      )}
       {run?.note && (
         <div className="mx-auto mt-3.5 max-w-[1180px] rounded-2xl border border-brand-line bg-brand-soft px-4 py-2.5 text-[13px] font-medium text-[#7a6400]">
           {run.note}
@@ -187,6 +233,7 @@ export default function App() {
       </main>
 
       <Tour ref={tourRef} ready={!loading} />
+      <ImportDialog open={importOpen} onClose={() => setImportOpen(false)} onDone={handleBatchDone} />
     </div>
   )
 }

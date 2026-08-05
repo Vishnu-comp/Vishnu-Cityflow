@@ -37,6 +37,11 @@ const STEPS = [
     body: 'One click: the AI reads every message, groups similar ones together, and picks the few that truly matter today. Takes a few seconds.',
   },
   {
+    sel: '[data-tour="import"]',
+    title: 'Bring your own spreadsheet',
+    body: 'Paste or upload a CSV of real rider messages — the whole triage runs on your batch. The built-in 30-message sample is always one click away.',
+  },
+  {
     sel: '[data-tour="provider"]',
     title: 'Which brain did the work',
     body: 'A yellow tag means a real AI model triaged the batch. A plain tag means the built-in offline backup did it — we always tell you which, and why.',

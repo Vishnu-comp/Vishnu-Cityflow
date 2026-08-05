@@ -8,8 +8,16 @@ async function request(path, options) {
   return res.json()
 }
 
+const postJson = (path, payload) => ({
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(payload ?? {}),
+})
+
 export const api = {
   feedback: () => request('/api/feedback/'),
   latestTriage: () => request('/api/triage/latest/'),
   runTriage: () => request('/api/triage/run/', { method: 'POST' }),
+  importCsv: (csv) => request('/api/feedback/import/', postJson({ csv })),
+  loadSample: () => request('/api/feedback/load-sample/', postJson()),
 }

@@ -36,7 +36,9 @@ Vishnu-Cityflow/
 │   └── triage/                 # the app
 │       ├── models.py           # FeedbackMessage, TriageRun (append-only, auditable)
 │       ├── llm.py              # ★ triage engine: openai + heuristic providers, validation guardrails
-│       ├── views.py            # REST endpoints
+│       ├── importer.py         # untrusted-CSV → clean batch (aliases, defaults, fix-up receipts)
+│       ├── tests.py            # parser + endpoint tests
+│       ├── views.py            # REST endpoints (incl. import + load-sample)
 │       ├── serializers.py
 │       └── management/commands/seed_feedback.py
 ├── frontend/                   # React + Vite (dev server proxies /api → Django)
@@ -49,6 +51,7 @@ Vishnu-Cityflow/
 │       │   ├── DraftReply.jsx     # editable AI draft + copy (human-in-the-loop)
 │       │   ├── ClusterBar.jsx     # cluster pills → filter the inbox
 │       │   ├── FeedbackList.jsx   # the 30 messages, severity/injection chips
+│       │   ├── ImportDialog.jsx   # paste/upload a CSV batch + sample-CSV download + restore sample
 │       │   └── Tour.jsx           # guided first-run tour: dim/blur spotlight + plain-English cards
 │       ├── format.js           # time helpers + shared Tailwind recipes (chips, buttons)
 │       └── styles.css          # Tailwind v3 directives; design tokens live in ../tailwind.config.js
@@ -82,9 +85,27 @@ export OPENAI_API_KEY=sk-...        # plus OPENAI_MODEL if you want a different 
 
 | Method | Path | Returns |
 |---|---|---|
-| GET | `/api/feedback/` | the seeded batch |
+| GET | `/api/feedback/` | the current batch |
+| POST | `/api/feedback/import/` | body `{"csv": "…"}` → validates + **replaces** the batch, returns `{imported, dropped, warnings}` |
+| POST | `/api/feedback/load-sample/` | restores the built-in 30-message sample |
 | GET | `/api/triage/latest/` | most recent triage run (404 until first run) |
 | POST | `/api/triage/run/` | runs triage, persists + returns the run |
+
+### Import your own batch
+
+Paste a CSV into **Import CSV** in the header (or upload a `.csv` — the client reads it
+locally, no multipart needed). Only a `message` column is required;
+
+```csv
+id,timestamp,source,rider,route,message
+R-001,2026-08-14T07:41:00+05:30,app_chat,Asha N.,Andheri West → BKC,"Bus left 4 min early again…"
+```
+
+Flexible headers: `name`/`user` → rider, `date`/`time` → timestamp, `comment`/`text` →
+message. Fix-ups (missing ids, bad timestamps, duplicate ids, oversized batches) are
+applied, reported as warnings in the dialog, and never silently. **Restore sample
+batch** in the same dialog brings back the original 30. Parser + endpoints are covered
+by `backend/triage/tests.py` (`cd backend && python manage.py test`).
 
 ## Scope — deliberately cut (see memo for the *why*)
 
