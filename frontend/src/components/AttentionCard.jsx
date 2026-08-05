@@ -15,6 +15,7 @@ export default function AttentionCard({ item, cluster, active, onSelect }) {
 
   return (
     <article
+      data-tour="attention-card"
       className={
         'mb-4 cursor-pointer overflow-hidden rounded-2xl border border-line bg-white px-[18px] pt-[18px] transition ' +
         'hover:border-[#d8d2be] hover:shadow-[0_2px_10px_rgba(23,22,15,0.05)]' +
@@ -52,7 +53,7 @@ export default function AttentionCard({ item, cluster, active, onSelect }) {
       {item.draft_reply && <DraftReply key={item.rank + item.cluster_id} draft={item.draft_reply} />}
 
       {stripBits.length > 0 && (
-        <div className="-mx-[18px] mt-3.5 bg-cream-deep px-[18px] py-[9px] text-center text-xs font-semibold tracking-[0.01em] text-ink-soft">
+        <div data-tour="band" className="-mx-[18px] mt-3.5 bg-cream-deep px-[18px] py-[9px] text-center text-xs font-semibold tracking-[0.01em] text-ink-soft">
           {stripBits.join('  ·  ')}
         </div>
       )}

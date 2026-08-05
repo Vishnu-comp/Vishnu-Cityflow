@@ -48,7 +48,8 @@ Vishnu-Cityflow/
 │       │   ├── AttentionCard.jsx  # ranked card: why-now, next step, draft reply
 │       │   ├── DraftReply.jsx     # editable AI draft + copy (human-in-the-loop)
 │       │   ├── ClusterBar.jsx     # cluster pills → filter the inbox
-│       │   └── FeedbackList.jsx   # the 30 messages, severity/injection chips
+│       │   ├── FeedbackList.jsx   # the 30 messages, severity/injection chips
+│       │   └── Tour.jsx           # guided first-run tour: dim/blur spotlight + plain-English cards
 │       ├── format.js           # time helpers + shared Tailwind recipes (chips, buttons)
 │       └── styles.css          # Tailwind v3 directives; design tokens live in ../tailwind.config.js
 └── README.md

@@ -21,7 +21,7 @@ export default function DraftReply({ draft }) {
   }
 
   return (
-    <div className="mt-1.5 overflow-hidden rounded-xl border border-line bg-[#fefefa]">
+    <div data-tour="draft" className="mt-1.5 overflow-hidden rounded-xl border border-line bg-[#fefefa]">
       <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line bg-cream px-3 py-2 text-xs font-semibold text-ink-soft">
         <span>✨ AI draft reply</span>
         <span className="text-[11px] font-medium text-muted">

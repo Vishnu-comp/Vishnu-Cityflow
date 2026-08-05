@@ -10,6 +10,7 @@ export default function FeedbackList({ messages, clusterOf, flagged, highlightCl
         return (
           <li
             key={m.message_id}
+            data-tour="feed-row"
             className={
               'mb-2.5 rounded-2xl border border-line bg-white px-4 py-3.5 transition hover:border-[#d8d2be]' +
               (dimmed ? ' opacity-35' : '')

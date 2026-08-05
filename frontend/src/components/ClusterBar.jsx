@@ -9,7 +9,7 @@ export default function ClusterBar({ clusters, selected, onSelect }) {
   const count = (on) => `ml-0.5 font-bold ${on ? 'text-ink' : 'text-muted'}`
 
   return (
-    <div className="mb-3.5 flex flex-wrap gap-2" role="tablist" aria-label="Filter by cluster">
+    <div data-tour="clusters" className="mb-3.5 flex flex-wrap gap-2" role="tablist" aria-label="Filter by cluster">
       <button className={pill(selected === 'all')} onClick={() => onSelect('all')}>
         All <b className={count(selected === 'all')}>{total}</b>
       </button>

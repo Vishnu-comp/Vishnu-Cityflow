@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { api } from './api.js'
-import { BTN_PRIMARY } from './format.js'
+import { BTN_GHOST, BTN_PRIMARY } from './format.js'
 import AttentionCard from './components/AttentionCard.jsx'
 import ClusterBar from './components/ClusterBar.jsx'
 import FeedbackList from './components/FeedbackList.jsx'
+import Tour from './components/Tour.jsx'
 
 const SKELETON = 'mb-4 h-[130px] animate-pulse rounded-2xl bg-cream'
 
@@ -15,6 +16,7 @@ export default function App() {
   const [error, setError] = useState(null)
   const [filter, setFilter] = useState('all')
   const [focusCluster, setFocusCluster] = useState(null)
+  const tourRef = useRef(null)
 
   useEffect(() => {
     Promise.all([api.feedback(), api.latestTriage()])
@@ -57,11 +59,15 @@ export default function App() {
 
   const providerBadge = run ? (
     run.provider === 'openai' ? (
-      <span className="rounded-md bg-brand px-[11px] py-[5px] text-[11.5px] font-bold text-ink">
+      <span
+        data-tour="provider"
+        className="rounded-md bg-brand px-[11px] py-[5px] text-[11.5px] font-bold text-ink"
+      >
         LLM triage{run.model ? ` · ${run.model}` : ''}
       </span>
     ) : (
       <span
+        data-tour="provider"
         className="rounded-md border border-line bg-white px-[11px] py-[5px] text-[11.5px] font-bold text-ink-soft"
         title={run.note}
       >
@@ -82,14 +88,17 @@ export default function App() {
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-3">
+          <button className={BTN_GHOST} onClick={() => tourRef.current?.open()} aria-label="Start the guided tour">
+            ? Tour
+          </button>
           {providerBadge}
-          <button className={BTN_PRIMARY} onClick={runTriage} disabled={triaging || loading}>
+          <button data-tour="run" className={BTN_PRIMARY} onClick={runTriage} disabled={triaging || loading}>
             {triaging ? 'Triaging…' : run ? 'Re-run triage' : 'Run triage'}
           </button>
         </div>
       </header>
 
-      <div className="mx-auto max-w-[1180px] px-7 pb-1.5 pt-[34px] max-[920px]:px-4 max-[920px]:pt-[22px]">
+      <div data-tour="hero" className="mx-auto max-w-[1180px] px-7 pb-1.5 pt-[34px] max-[920px]:px-4 max-[920px]:pt-[22px]">
         <h1 className="m-0 font-display text-[clamp(30px,4.5vw,44px)] font-black leading-[1.05] tracking-[-0.01em]">
           Morning triage
         </h1>
@@ -145,7 +154,7 @@ export default function App() {
               />
             ))}
 
-          <aside className="mt-1 rounded-2xl border border-brand-line bg-[#fffdf0] px-4 py-3.5">
+          <aside data-tour="memo" className="mt-1 rounded-2xl border border-brand-line bg-[#fffdf0] px-4 py-3.5">
             <h4 className="mb-1.5 font-display text-[13px] font-bold">
               Today's memo — docs/memo.md
             </h4>
@@ -176,6 +185,8 @@ export default function App() {
           )}
         </section>
       </main>
+
+      <Tour ref={tourRef} ready={!loading} />
     </div>
   )
 }
