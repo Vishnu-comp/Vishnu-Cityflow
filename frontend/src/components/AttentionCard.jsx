@@ -3,6 +3,16 @@ import DraftReply from './DraftReply.jsx'
 
 export default function AttentionCard({ item, cluster, active, onSelect }) {
   const sev = SEVERITY[cluster?.severity ?? 3]
+  const churn = cluster?.signals?.churn_mentions
+  const money = cluster?.signals?.money_mentions
+  const blocking = cluster?.signals?.blocking_mentions
+  const stripBits = [
+    cluster ? `${cluster.count} messages` : null,
+    churn ? `${churn} churn signals` : null,
+    money ? `${money} money mentions` : null,
+    blocking ? `${blocking} blocked flows` : null,
+  ].filter(Boolean)
+
   return (
     <article
       className={`attention-card ${active ? 'active' : ''}`}
@@ -18,7 +28,6 @@ export default function AttentionCard({ item, cluster, active, onSelect }) {
           <div className="chips">
             {cluster && <span className="chip">{cluster.label}</span>}
             {cluster && <span className={`chip ${sev.cls}`}>{sev.label}</span>}
-            {cluster && <span className="chip subtle">{cluster.count} msgs</span>}
           </div>
         </div>
       </div>
@@ -31,6 +40,10 @@ export default function AttentionCard({ item, cluster, active, onSelect }) {
       </div>
 
       {item.draft_reply && <DraftReply key={item.rank + item.cluster_id} draft={item.draft_reply} />}
+
+      {stripBits.length > 0 && (
+        <div className="card-band">{stripBits.join('  ·  ')}</div>
+      )}
     </article>
   )
 }

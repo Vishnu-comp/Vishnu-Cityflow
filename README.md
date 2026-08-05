@@ -49,7 +49,7 @@ Vishnu-Cityflow/
 │       │   ├── DraftReply.jsx     # editable AI draft + copy (human-in-the-loop)
 │       │   ├── ClusterBar.jsx     # cluster pills → filter the inbox
 │       │   └── FeedbackList.jsx   # the 30 messages, severity/injection chips
-│       └── styles.css          # Cityflo-ish yellow/ink, solid colors, responsive
+│       └── styles.css          # matches cityflo.com: serif display, cream surfaces, black pill CTA, yellow accents
 └── README.md
 ```
 

@@ -54,10 +54,10 @@ export default function App() {
 
   const providerBadge = run ? (
     run.provider === 'openai' ? (
-      <span className="provider ok">● LLM triage · {run.model}</span>
+      <span className="provider ok">LLM triage{run.model ? ` · ${run.model}` : ''}</span>
     ) : (
       <span className="provider warn" title={run.note}>
-        ● Offline heuristic triage
+        Heuristic mode
       </span>
     )
   ) : null
@@ -66,21 +66,26 @@ export default function App() {
     <div className="page">
       <header className="topbar">
         <div className="brand">
-          <span className="logo">C</span>
-          <div>
-            <h1>Morning triage</h1>
-            <p className="subtitle">
-              Rider feedback · last 48h · {messages.length} messages · standup in 15
-            </p>
-          </div>
+          <span className="wordmark">
+            cityflo<span className="wordmark-dot">.</span>
+          </span>
+          <span className="product">ops · morning triage</span>
         </div>
         <div className="topbar-right">
           {providerBadge}
           <button className="btn primary" onClick={runTriage} disabled={triaging || loading}>
-            {triaging ? 'Triaging…' : run ? '↻ Re-run triage' : '▶ Run triage'}
+            {triaging ? 'Triaging…' : run ? 'Re-run triage' : 'Run triage'}
           </button>
         </div>
       </header>
+
+      <div className="hero">
+        <h1 className="display">Morning triage</h1>
+        <p className="lede">
+          {messages.length} rider messages from the last 48 hours — clustered and ranked, with the
+          2–3 things that actually need attention before standup.
+        </p>
+      </div>
 
       {run?.note && <div className="banner">{run.note}</div>}
       {error && <div className="banner error">{error}</div>}
@@ -119,7 +124,7 @@ export default function App() {
             ))}
 
           <aside className="memo-strip">
-            <h4>📋 Today's memo (docs/memo.md)</h4>
+            <h4>Today's memo — docs/memo.md</h4>
             <p>
               <b>User:</b> the daily pass commuter. <b>Problem:</b> pickup reliability — buses
               leaving early, fictional ETAs. <b>Cut:</b> new routes, pricing, pet policy — not a
@@ -129,7 +134,7 @@ export default function App() {
         </section>
 
         <section className="col-feed" aria-label="All feedback">
-          <h2 className="section-title">Inbox</h2>
+          <h2 className="section-title">All feedback</h2>
           {clusters.length > 0 && (
             <ClusterBar clusters={clusters} selected={filter} onSelect={setFilter} />
           )}

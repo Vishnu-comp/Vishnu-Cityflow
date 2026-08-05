@@ -7,11 +7,11 @@ export function timeAgo(iso) {
   return `${Math.floor(hrs / 24)}d ago`
 }
 
-export const SOURCE_ICONS = {
-  app_chat: '💬',
-  email: '✉️',
-  playstore: '★',
-  twitter: '𝕏',
+export const SOURCE_LABELS = {
+  app_chat: 'Chat',
+  email: 'Mail',
+  playstore: 'Store',
+  twitter: 'X',
 }
 
 export const SEVERITY = {

@@ -1,4 +1,4 @@
-import { SOURCE_ICONS, timeAgo } from '../format.js'
+import { SOURCE_LABELS, timeAgo } from '../format.js'
 
 export default function FeedbackList({ messages, clusterOf, flagged, highlightCluster }) {
   return (
@@ -11,10 +11,8 @@ export default function FeedbackList({ messages, clusterOf, flagged, highlightCl
           <li key={m.message_id} className={`feed-row ${dimmed ? 'dimmed' : ''}`}>
             <div className="feed-meta">
               <span className="feed-id">{m.message_id}</span>
-              <span className="feed-src" title={m.source}>
-                {SOURCE_ICONS[m.source] ?? '•'}
-              </span>
-              <span className="muted">{m.rider}</span>
+              <span className="feed-src">{SOURCE_LABELS[m.source] ?? m.source}</span>
+              <span className="rider-name">{m.rider}</span>
               <span className="muted hide-sm">{m.route}</span>
               <span className="muted">{timeAgo(m.ts)}</span>
             </div>
