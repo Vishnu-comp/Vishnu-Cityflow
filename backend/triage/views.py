@@ -77,7 +77,7 @@ class TriageLatestView(APIView):
 
 class TriageRunView(APIView):
     def post(self, request):
-        msgs = list(FeedbackMessage.objects.all().values("message_id", "ts", "source", "rider", "route", "body"))
+        msgs = list(FeedbackMessage.objects.all().values("message_id", "ts", "source", "rider", "route", "star_rating", "body"))
         if not msgs:
             return Response({"detail": "no feedback seeded"}, status=400)
         serializable = [{**m, "ts": m["ts"].isoformat()} for m in msgs]

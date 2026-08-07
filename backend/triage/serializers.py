@@ -6,7 +6,7 @@ from .models import FeedbackMessage, TriageRun
 class FeedbackMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = FeedbackMessage
-        fields = ["message_id", "ts", "source", "rider", "route", "body"]
+        fields = ["message_id", "ts", "source", "rider", "route", "star_rating", "body"]
 
 
 class TriageRunSerializer(serializers.ModelSerializer):

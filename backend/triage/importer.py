@@ -18,8 +18,9 @@ FIELD_ALIASES = {
     "message_id": ("id", "message_id", "msg_id", "ticket", "ticket id", "ref", "case id"),
     "ts": ("timestamp", "time", "datetime", "date", "created", "created_at", "when"),
     "source": ("source", "channel", "via"),
-    "rider": ("rider", "name", "user", "customer", "passenger", "from"),
+    "rider": ("rider", "rider_id", "rider id", "name", "user", "customer", "passenger", "from"),
     "route": ("route", "corridor", "trip", "lane"),
+    "star_rating": ("star_rating", "star rating", "stars", "rating", "star"),
     "body": ("message", "body", "text", "feedback", "complaint", "description", "content", "review", "comment"),
 }
 
@@ -96,12 +97,24 @@ def _normalize_record(raw: dict, warnings: list[str], line: int) -> dict | None:
     source = (raw.get("source") or "").strip().lower()[:24]
     source = SOURCE_ALIASES.get(source, source or "app_chat")
 
+    star_raw = (raw.get("star_rating") or "").strip()
+    star = None
+    if star_raw:
+        try:
+            star = int(star_raw)
+            if not 1 <= star <= 5:
+                warnings.append(f"row {line}: star rating '{star_raw[:8]}' out of range — ignored")
+                star = None
+        except ValueError:
+            warnings.append(f"row {line}: couldn't read star rating '{star_raw[:12]}' — ignored")
+
     return {
         "message_id": (raw.get("message_id") or "").strip()[:24],
         "ts": ts,
         "source": source,
         "rider": (raw.get("rider") or "").strip()[:64] or "Anonymous rider",
         "route": (raw.get("route") or "").strip()[:80],
+        "star_rating": star,
         "body": body,
     }
 
@@ -151,11 +164,22 @@ def parse_feedback_csv(text: str):
     idx = {canon: raw_lines[0].index(raw_name) for canon, raw_name in mapping.items()}
 
     records = []
+    extra_cell_rows = []
     for line, cells in enumerate(raw_lines[1:], start=2):
+        if len(cells) > len(raw_lines[0]):
+            extra_cell_rows.append(line)
         records.append(
             ({canon: (cells[i] if i < len(cells) else "") for canon, i in idx.items()}, line)
         )
 
     warnings: list[str] = []
+    for line in extra_cell_rows[:5]:
+        warnings.append(
+            f"row {line}: more cells than the header — extra cells ignored "
+            "(missing quotes around the message text?)"
+        )
+    if len(extra_cell_rows) > 5:
+        warnings.append(f"…same issue on {len(extra_cell_rows) - 5} more rows")
+
     rows, dropped = _finalize(records, warnings)
     return rows, warnings, dropped

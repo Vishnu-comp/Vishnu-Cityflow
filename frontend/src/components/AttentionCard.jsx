@@ -6,8 +6,10 @@ export default function AttentionCard({ item, cluster, active, onSelect }) {
   const churn = cluster?.signals?.churn_mentions
   const money = cluster?.signals?.money_mentions
   const blocking = cluster?.signals?.blocking_mentions
+  const safety = cluster?.signals?.safety_mentions
   const stripBits = [
     cluster ? `${cluster.count} messages` : null,
+    safety ? `⚠ ${safety} safety signal${safety > 1 ? 's' : ''}` : null,
     churn ? `${churn} churn signals` : null,
     money ? `${money} money mentions` : null,
     blocking ? `${blocking} blocked flows` : null,

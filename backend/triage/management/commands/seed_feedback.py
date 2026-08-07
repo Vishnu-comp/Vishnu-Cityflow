@@ -23,6 +23,7 @@ class Command(BaseCommand):
                     "source": r["source"],
                     "rider": r["rider"],
                     "route": r["route"],
+                    "star_rating": r.get("star_rating"),
                     "body": r["body"],
                 },
             )

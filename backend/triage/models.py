@@ -6,9 +6,10 @@ class FeedbackMessage(models.Model):
 
     message_id = models.CharField(max_length=24, unique=True)
     ts = models.DateTimeField()
-    source = models.CharField(max_length=24)  # app_chat | email | playstore | twitter
-    rider = models.CharField(max_length=64)
+    source = models.CharField(max_length=24)  # app_chat | email | playstore | twitter | official CSV channels
+    rider = models.CharField(max_length=64)   # name, or rider id (e.g. R-10544) from ops exports
     route = models.CharField(max_length=80, blank=True)
+    star_rating = models.PositiveSmallIntegerField(null=True, blank=True)  # 1-5 when the channel collects one
     body = models.TextField()
 
     class Meta:

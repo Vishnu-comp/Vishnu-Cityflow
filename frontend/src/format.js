@@ -12,6 +12,11 @@ export const SOURCE_LABELS = {
   email: 'Mail',
   playstore: 'Store',
   twitter: 'X',
+  // Cityflo's official feedback export channels
+  app_feedback: 'In-app',
+  support_chat: 'Support',
+  play_store_review: 'Play Store',
+  appstore_review: 'App Store',
 }
 
 // ---- shared Tailwind recipes (components stay terse, tokens come from styles.css) ----

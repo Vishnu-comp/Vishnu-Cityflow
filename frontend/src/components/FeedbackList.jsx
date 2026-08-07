@@ -21,6 +21,14 @@ export default function FeedbackList({ messages, clusterOf, flagged, highlightCl
               <span className="rounded-[5px] bg-cream px-[7px] py-0.5 text-[10px] font-bold uppercase tracking-[0.06em] text-ink-soft">
                 {SOURCE_LABELS[m.source] ?? m.source}
               </span>
+              {m.star_rating != null && (
+                <span
+                  className="rounded-[5px] bg-brand/25 px-[7px] py-0.5 text-[10px] font-bold tracking-[0.03em] text-ink"
+                  title="Rider-reported star rating"
+                >
+                  ★{m.star_rating}
+                </span>
+              )}
               <span className="font-semibold text-ink">{m.rider}</span>
               <span className="text-muted max-[920px]:hidden">{m.route}</span>
               <span className="text-muted">{timeAgo(m.ts)}</span>
